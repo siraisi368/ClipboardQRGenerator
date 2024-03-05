@@ -1,1 +1,2 @@
 # ClipboardQRGenerator
+クリップボードに入ってきた文字をQRコードにして吐き出すヤツ。
