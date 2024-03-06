@@ -58,5 +58,29 @@ namespace ClipboardQRGenerator.Properties {
                 this["SavePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SaveFileName {
+            get {
+                return ((int)(this["SaveFileName"]));
+            }
+            set {
+                this["SaveFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool is_Filesave {
+            get {
+                return ((bool)(this["is_Filesave"]));
+            }
+            set {
+                this["is_Filesave"] = value;
+            }
+        }
     }
 }
