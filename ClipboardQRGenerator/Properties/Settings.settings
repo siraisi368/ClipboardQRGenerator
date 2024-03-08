@@ -18,7 +18,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="is_saveLog" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="qrW" Type="System.String" Scope="User">
       <Value Profile="(Default)">180</Value>

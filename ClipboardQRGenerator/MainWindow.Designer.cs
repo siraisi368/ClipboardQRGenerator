@@ -60,6 +60,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -372,6 +373,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.checkBox2);
             this.groupBox5.Controls.Add(this.button5);
             this.groupBox5.Controls.Add(this.button4);
             this.groupBox5.Controls.Add(this.button3);
@@ -382,6 +384,17 @@
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "コントロール";
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(6, 110);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(132, 20);
+            this.checkBox2.TabIndex = 4;
+            this.checkBox2.Text = "QR化ログの保持";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // button5
             // 
@@ -435,12 +448,12 @@
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.このソフトウェアについてToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(180, 26);
             // 
             // このソフトウェアについてToolStripMenuItem
             // 
             this.このソフトウェアについてToolStripMenuItem.Name = "このソフトウェアについてToolStripMenuItem";
-            this.このソフトウェアについてToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.このソフトウェアについてToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.このソフトウェアについてToolStripMenuItem.Text = "このソフトウェアについて";
             this.このソフトウェアについてToolStripMenuItem.Click += new System.EventHandler(this.このソフトウェアについてToolStripMenuItem_Click);
             // 
@@ -474,6 +487,7 @@
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -520,6 +534,7 @@
         private System.Windows.Forms.ToolStripMenuItem このソフトウェアについてToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
 

@@ -54,7 +54,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(219, 42);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Clipboard QR Generator\r\nVersion 1.10.0";
+            this.label1.Text = "Clipboard QR Generator\r\nVersion 1.10.1";
             // 
             // label2
             // 

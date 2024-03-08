@@ -54,6 +54,7 @@ namespace ClipboardQRGenerator
             comboBox3.SelectedIndex = Properties.Settings.Default.SaveFileName;
             textBox3.Text = Properties.Settings.Default.SavePath;
             checkBox1.Checked = Properties.Settings.Default.is_Filesave;
+            checkBox2.Checked = Properties.Settings.Default.is_saveLog;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -111,10 +112,9 @@ namespace ClipboardQRGenerator
                     ReDrawList();
                 }
             }
-            
             catch
             {
-
+                ToastNotifySender("QRコードの生成に失敗しました。");
             }
         }
 
@@ -254,6 +254,11 @@ namespace ClipboardQRGenerator
         {
             About f = new About();
             f.ShowDialog();
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.is_saveLog = checkBox2.Checked;
         }
     }
 }

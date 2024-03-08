@@ -85,7 +85,7 @@ namespace ClipboardQRGenerator.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool is_saveLog {
             get {
                 return ((bool)(this["is_saveLog"]));
