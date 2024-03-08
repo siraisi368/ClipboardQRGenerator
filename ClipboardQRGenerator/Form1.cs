@@ -27,90 +27,10 @@ namespace ClipboardQRGenerator
             InitializeComponent();
         }
 
-        public Dictionary<int, QRCodeGenerator.ECCLevel> ECCLvs = new Dictionary<int, QRCodeGenerator.ECCLevel>()
-        {
-            { 0,QRCodeGenerator.ECCLevel.L},
-            { 1,QRCodeGenerator.ECCLevel.M},
-            { 2,QRCodeGenerator.ECCLevel.Q},
-            { 3,QRCodeGenerator.ECCLevel.H},
-        };
-
-        public Dictionary<int, ImageFormat> SaveFileTypes = new Dictionary<int, ImageFormat>()
-        {
-            { 0,ImageFormat.Png},
-            { 1,ImageFormat.Jpeg},
-            { 2,ImageFormat.Gif},
-            { 3,ImageFormat.Bmp},
-        };
-        public Dictionary<int, string> SaveFileTypeExists = new Dictionary<int, string>()
-        {
-            { 0,".png"},
-            { 1,".jpg"},
-            { 2,".gif"},
-            { 3,".bmp"},
-        };
-
+        private readonly QRCtrl qrCtrl = new QRCtrl();
         public List<string> geneLog = new List<string>();
-
         private bool is_gene = false;
-
-        public string UrlToFileNameD6 (string url)
-        {
-            string respData = null;
-            respData = Path.GetFileNameWithoutExtension(url);
-            string[] tempList = respData.Split('_');
-            respData = tempList[2];
-            return respData;
-        }
-
-        public void MakeQRCode(string Value, bool is_preview = true, bool is_copy = true, bool is_save = true,string savepath=null)
-        {
-            QRCodeGenerator qRCG = new QRCodeGenerator();
-            QRCodeData qRCodeData = qRCG.CreateQrCode(Value, ECCLvs[Properties.Settings.Default.ECCLv]);
-            QRCode qrCode = new QRCode(qRCodeData);
-            using (Image img = qrCode.GetGraphic(20))
-            {
-                int.TryParse(textBox1.Text, out int Width);
-                int.TryParse(textBox2.Text, out int Height);
-                Bitmap bitmap1 = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                Bitmap bitmap2 = new Bitmap(Width, Height);
-                if (is_preview)
-                {
-                    using (Graphics g = Graphics.FromImage(bitmap1)) //表示用
-                    {
-                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                        g.DrawImage(img, 0, 0, pictureBox1.Width, pictureBox1.Height);
-                    }
-                    pictureBox1.Image = bitmap1;
-                }
-                using (Graphics g = Graphics.FromImage(bitmap2)) //クリップボード用
-                {
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(img, 0, 0, Width, Height);
-                    Clipboard.SetImage(bitmap2);
-                }
-
-                if (checkBox1.Checked && is_save)
-                {
-                    switch (comboBox3.SelectedIndex)
-                    {
-                        case 0:
-                            bitmap2.Save(textBox3.Text + @"\" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + SaveFileTypeExists[Properties.Settings.Default.SaveKind], SaveFileTypes[Properties.Settings.Default.SaveKind]);
-                            break;
-                        case 1:
-                            bitmap2.Save(textBox3.Text + @"\" + ConvertFileName(Value) + SaveFileTypeExists[Properties.Settings.Default.SaveKind], SaveFileTypes[Properties.Settings.Default.SaveKind]);
-                            break;
-                        case 2:
-                            bitmap2.Save(textBox3.Text + @"\" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss ") + ConvertFileName(Value) + SaveFileTypeExists[Properties.Settings.Default.SaveKind], SaveFileTypes[Properties.Settings.Default.SaveKind]);
-                            break;
-                        case 3:
-                            bitmap2.Save(textBox3.Text + @"\" + UrlToFileNameD6(Value) + SaveFileTypeExists[Properties.Settings.Default.SaveKind], SaveFileTypes[Properties.Settings.Default.SaveKind]);
-                            break;
-                    }
-                }
-            }
-        }
-
+        
         public void ReDrawList()
         {
             listView1.Items.Clear();
@@ -122,20 +42,13 @@ namespace ClipboardQRGenerator
             }
         }
 
-        public string ConvertFileName(string fileName)
-        {
-            string respData = fileName.Replace(" ", "");
-            char[] UnAvailableChar = Path.GetInvalidFileNameChars();
-            respData = respData.Replace(Environment.NewLine, "");
-            foreach (char value in UnAvailableChar)
-            {
-                respData = respData.Replace(value, '_');
-            }
-            return respData;
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
+            generateLogWrapper generateLogWrapper = new generateLogWrapper();
+            geneLog = generateLogWrapper.ReadLog();
+            ReDrawList();
+            textBox1.Text = Properties.Settings.Default.qrW;
+            textBox2.Text = Properties.Settings.Default.qrH;
             comboBox1.SelectedIndex = Properties.Settings.Default.ECCLv;
             comboBox2.SelectedIndex = Properties.Settings.Default.SaveKind;
             comboBox3.SelectedIndex = Properties.Settings.Default.SaveFileName;
@@ -182,25 +95,37 @@ namespace ClipboardQRGenerator
                     lastdata = args.Text;
                     geneLog.Add(args.Text);
                     Console.WriteLine(args.Text);
-                    MakeQRCode(args.Text);
+                    int.TryParse(textBox1.Text, out int Width);
+                    int.TryParse(textBox2.Text, out int Height);
+
+                    (int, int) geneSize = (Width,Height);
+
+                    Image qr = qrCtrl.MakeQRCode(args.Text);
+                    qrCtrl.CopyQRCode(qr,geneSize);
+                    if (Properties.Settings.Default.is_Filesave)
+                        qrCtrl.SaveQRImage(qr,
+                            qrCtrl.FilePathGenerator(args.Text, Properties.Settings.Default.SaveFileName,Properties.Settings.Default.SaveKind,textBox3.Text),
+                            geneSize);
+                    
+                    pictureBox1.Image = qr;
                     ReDrawList();
-                    new ToastContentBuilder()
-                            .AddArgument("action", "viewConversation")
-                            .AddArgument("conversationId", 9813)
-                            .AddText("QRコードの生成に成功しました")
-                            .Show();
-                    ToastNotificationManagerCompat.OnActivated += this.ToastNotificationManagerCompat_OnActivated;
                 }
             }
+            
             catch
             {
-                new ToastContentBuilder()
+
+            }
+        }
+
+        private void ToastNotifySender(string Message)
+        {
+            new ToastContentBuilder()
                             .AddArgument("action", "viewConversation")
                             .AddArgument("conversationId", 9813)
-                            .AddText("QRコードの生成に失敗しました")
+                            .AddText(Message)
                             .Show();
-                ToastNotificationManagerCompat.OnActivated += this.ToastNotificationManagerCompat_OnActivated;
-            }
+            ToastNotificationManagerCompat.OnActivated += this.ToastNotificationManagerCompat_OnActivated;
         }
 
         private void ToastNotificationManagerCompat_OnActivated(ToastNotificationActivatedEventArgsCompat e)
@@ -234,6 +159,10 @@ namespace ClipboardQRGenerator
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Properties.Settings.Default.qrW = textBox1.Text;
+            Properties.Settings.Default.qrH = textBox2.Text;
+            generateLogWrapper generateLogWrapper = new generateLogWrapper();
+            generateLogWrapper.WriteLog(geneLog);
             Properties.Settings.Default.Save();
         }
 
@@ -253,7 +182,13 @@ namespace ClipboardQRGenerator
             {
                 int selectindex;
                 selectindex = listView1.SelectedItems[0].Index;
-                MakeQRCode(geneLog[selectindex],false,true,false);
+                int.TryParse(textBox1.Text, out int Width);
+                int.TryParse(textBox2.Text, out int Height);
+
+                (int, int) geneSize = (Width, Height);
+                int code = qrCtrl.CopyQRCode(qrCtrl.MakeQRCode(geneLog[selectindex]), geneSize);
+                if(code == 0) ToastNotifySender("QRコードのコピーに成功しました");
+                if(code == 1) ToastNotifySender("QRコードのコピーに失敗しました");
             }
         }
 
@@ -263,7 +198,55 @@ namespace ClipboardQRGenerator
             {
                 int selectindex;
                 selectindex = listView1.SelectedItems[0].Index;
-                MakeQRCode(geneLog[selectindex], false, true, false);
+                int.TryParse(textBox1.Text, out int Width);
+                int.TryParse(textBox2.Text, out int Height);
+
+                (int, int) geneSize = (Width, Height);
+
+                SaveFileDialog sfd = new SaveFileDialog()
+                {
+                    Filter = "PNG画像データ(*.png)|*.png|JPG画像データ(*.jpg)|(*.jpg)|GIF画像データ(*.gif)|(*.gif)|BMP画像データ(*.bmp)|(*.bmp)",
+                };
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    int code=qrCtrl.SaveQRImage(qrCtrl.MakeQRCode(geneLog[selectindex]), sfd.FileName, geneSize);
+                    ToastNotifySender("QRコードの保存に成功しました");
+                    if(code == 0 )ToastNotifySender("QRコードの保存に成功しました");
+                    if(code == 1) ToastNotifySender("QRコードの保存に失敗しました");
+                }
+            }
+        }
+
+        private void 保存フォルダに保存ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count > 0)
+            {
+                int selectindex;
+                selectindex = listView1.SelectedItems[0].Index;
+                int.TryParse(textBox1.Text, out int Width);
+                int.TryParse(textBox2.Text, out int Height);
+
+                Image qr = qrCtrl.MakeQRCode(geneLog[selectindex]);
+                int code = qrCtrl.SaveQRImage(qr,
+                            qrCtrl.FilePathGenerator(geneLog[selectindex], Properties.Settings.Default.SaveFileName, Properties.Settings.Default.SaveKind, textBox3.Text),
+                            (Width, Height));
+                if (code == 0) ToastNotifySender("QRコードの保存に成功しました");
+                if (code == 1) ToastNotifySender("QRコードの保存に失敗しました");
+            }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DialogResult dialog = MessageBox.Show("生成ログをクリアします。\r\nこの処理は元に戻せません。よろしいですか。","警告",MessageBoxButtons.OKCancel,MessageBoxIcon.Warning);
+            if (dialog == DialogResult.OK)
+            {
+                geneLog = new List<string>();
+                ReDrawList();
             }
         }
     }

@@ -58,9 +58,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="generateLog.cs" />
     <Compile Include="OpenFolderDialog.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QRCtrl.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -95,6 +98,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>7.1.3</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="QRCoder">
       <Version>1.4.3</Version>

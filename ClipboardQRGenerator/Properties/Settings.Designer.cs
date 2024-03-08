@@ -82,5 +82,41 @@ namespace ClipboardQRGenerator.Properties {
                 this["is_Filesave"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool is_saveLog {
+            get {
+                return ((bool)(this["is_saveLog"]));
+            }
+            set {
+                this["is_saveLog"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("180")]
+        public string qrW {
+            get {
+                return ((string)(this["qrW"]));
+            }
+            set {
+                this["qrW"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("180")]
+        public string qrH {
+            get {
+                return ((string)(this["qrH"]));
+            }
+            set {
+                this["qrH"] = value;
+            }
+        }
     }
 }

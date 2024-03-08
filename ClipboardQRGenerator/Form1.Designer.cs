@@ -41,6 +41,8 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -48,15 +50,6 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.label6 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -64,17 +57,25 @@
             this.qRを保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ファイル名を指定して保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.保存フォルダに保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.このソフトウェアについてToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox5.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -198,6 +199,30 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "QRコード保存の設定";
             // 
+            // comboBox3
+            // 
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "日時",
+            "クリップボード内容",
+            "日時+クリップボード内容",
+            "URL・フォルダパス内ファイル名"});
+            this.comboBox3.Location = new System.Drawing.Point(260, 84);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(297, 24);
+            this.comboBox3.TabIndex = 8;
+            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(257, 65);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(100, 16);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "ファイル名形式";
+            // 
             // comboBox2
             // 
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -211,6 +236,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(245, 24);
             this.comboBox2.TabIndex = 6;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -268,98 +294,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "QR化ログ";
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.pictureBox1);
-            this.groupBox4.Location = new System.Drawing.Point(474, 139);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(193, 208);
-            this.groupBox4.TabIndex = 4;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "最新のQR";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(180, 180);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.button4);
-            this.groupBox5.Controls.Add(this.button3);
-            this.groupBox5.Controls.Add(this.button2);
-            this.groupBox5.Location = new System.Drawing.Point(673, 139);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(156, 208);
-            this.groupBox5.TabIndex = 5;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "コントロール";
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(6, 172);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(144, 30);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "クリップボードクリア";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button3
-            // 
-            this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(6, 58);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(144, 30);
-            this.button3.TabIndex = 1;
-            this.button3.Text = "監視終了";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(6, 22);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(144, 30);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "監視開始";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "CQG - 待機中";
-            this.notifyIcon1.Visible = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(257, 65);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 16);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "ファイル名形式";
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
-            "日時",
-            "クリップボード内容",
-            "日時+クリップボード内容",
-            "URL内ファイル名下6桁"});
-            this.comboBox3.Location = new System.Drawing.Point(260, 84);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(297, 24);
-            this.comboBox3.TabIndex = 8;
-            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
-            // 
             // listView1
             // 
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -415,6 +349,76 @@
             this.保存フォルダに保存ToolStripMenuItem.Name = "保存フォルダに保存ToolStripMenuItem";
             this.保存フォルダに保存ToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.保存フォルダに保存ToolStripMenuItem.Text = "生成QR保存フォルダに保存";
+            this.保存フォルダに保存ToolStripMenuItem.Click += new System.EventHandler(this.保存フォルダに保存ToolStripMenuItem_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.pictureBox1);
+            this.groupBox4.Location = new System.Drawing.Point(474, 139);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(193, 208);
+            this.groupBox4.TabIndex = 4;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "最新のQR";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(180, 180);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.button5);
+            this.groupBox5.Controls.Add(this.button4);
+            this.groupBox5.Controls.Add(this.button3);
+            this.groupBox5.Controls.Add(this.button2);
+            this.groupBox5.Location = new System.Drawing.Point(673, 139);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(156, 208);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "コントロール";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(6, 172);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(144, 30);
+            this.button4.TabIndex = 2;
+            this.button4.Text = "クリップボードクリア";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.Enabled = false;
+            this.button3.Location = new System.Drawing.Point(6, 58);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(144, 30);
+            this.button3.TabIndex = 1;
+            this.button3.Text = "監視終了";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(6, 22);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(144, 30);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "監視開始";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "CQG - 待機中";
+            this.notifyIcon1.Visible = true;
             // 
             // contextMenuStrip2
             // 
@@ -428,6 +432,16 @@
             this.このソフトウェアについてToolStripMenuItem.Name = "このソフトウェアについてToolStripMenuItem";
             this.このソフトウェアについてToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.このソフトウェアについてToolStripMenuItem.Text = "このソフトウェアについて";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(6, 136);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(144, 30);
+            this.button5.TabIndex = 3;
+            this.button5.Text = "QR化ログクリア";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // Form1
             // 
@@ -455,10 +469,10 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox5.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -504,6 +518,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem このソフトウェアについてToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button button5;
     }
 }
 
