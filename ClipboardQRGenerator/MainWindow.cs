@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -120,7 +121,7 @@ namespace ClipboardQRGenerator
                                     geneSize);
                             pictureBox1.Image = qrTSV;
                         }
-                        ToastNotifySender($"QRコードを{lines.Count()}件生成しました。");
+                        ToastNotifySender($"QRコードを{lines.Count()}件生成しました。",true);
                         lastdata = args.Text;
                     }
                     else
@@ -146,14 +147,27 @@ namespace ClipboardQRGenerator
             }
         }
 
-        private void ToastNotifySender(string Message)
+        private void ToastNotifySender(string Message,bool is_save = false)
         {
-            new ToastContentBuilder()
-                            .AddArgument("action", "viewConversation")
-                            .AddArgument("conversationId", 9813)
-                            .AddText(Message)
-                            .Show();
-            ToastNotificationManagerCompat.OnActivated += this.ToastNotificationManagerCompat_OnActivated;
+            if (is_save)
+            {
+                new ToastContentBuilder()
+                                .AddArgument("action", "viewConversation")
+                                .AddArgument("conversationId", 9813)
+                                .AddText(Message)
+                                .AddButton(new ToastButton("保存先フォルダを開く", "openFolder"))
+                                .Show();
+                ToastNotificationManagerCompat.OnActivated += this.ToastNotificationManagerCompat_OnActivated;
+            }
+            else
+            {
+                new ToastContentBuilder()
+                                .AddArgument("action", "viewConversation")
+                                .AddArgument("conversationId", 9813)
+                                .AddText(Message)
+                                .Show();
+                ToastNotificationManagerCompat.OnActivated += this.ToastNotificationManagerCompat_OnActivated;
+            }
         }
 
         private void ToastNotificationManagerCompat_OnActivated(ToastNotificationActivatedEventArgsCompat e)
@@ -163,7 +177,9 @@ namespace ClipboardQRGenerator
             //キャンセル時
             if (arg == "cancel") return;
             //「開く」ボタン時
-            if (arg == "openWeb") return;
+            if (arg == "openFolder")
+                Process.Start(textBox3.Text);
+                return;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -258,7 +274,7 @@ namespace ClipboardQRGenerator
                 int code = qrCtrl.SaveQRImage(qr,
                             qrCtrl.FilePathGenerator(geneLog[selectindex], Properties.Settings.Default.SaveFileName, Properties.Settings.Default.SaveKind, textBox3.Text),
                             (Width, Height));
-                if (code == 0) ToastNotifySender("QRコードの保存に成功しました");
+                if (code == 0) ToastNotifySender("QRコードの保存に成功しました",true);
                 if (code == 1) ToastNotifySender("QRコードの保存に失敗しました");
             }
         }
