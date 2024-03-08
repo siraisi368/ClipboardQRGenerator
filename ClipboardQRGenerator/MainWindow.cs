@@ -7,10 +7,12 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json.Linq;
 using QRCoder;
 using Windows.ApplicationModel.Chat;
 
@@ -55,6 +57,9 @@ namespace ClipboardQRGenerator
             textBox3.Text = Properties.Settings.Default.SavePath;
             checkBox1.Checked = Properties.Settings.Default.is_Filesave;
             checkBox2.Checked = Properties.Settings.Default.is_saveLog;
+            this.MaximizeBox = false;
+            this.MaximumSize = this.Size;
+            this.MinimumSize = this.Size;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -93,22 +98,45 @@ namespace ClipboardQRGenerator
                 if (lastdata == args.Text || !is_gene) return;
                 else
                 {
-                    lastdata = args.Text;
-                    geneLog.Add(args.Text);
                     Console.WriteLine(args.Text);
                     int.TryParse(textBox1.Text, out int Width);
                     int.TryParse(textBox2.Text, out int Height);
 
                     (int, int) geneSize = (Width,Height);
 
-                    Image qr = qrCtrl.MakeQRCode(args.Text);
-                    qrCtrl.CopyQRCode(qr,geneSize);
-                    if (Properties.Settings.Default.is_Filesave)
-                        qrCtrl.SaveQRImage(qr,
-                            qrCtrl.FilePathGenerator(args.Text, Properties.Settings.Default.SaveFileName,Properties.Settings.Default.SaveKind,textBox3.Text),
-                            geneSize);
+                    string[] sepArr = new string[] { "\r\n" };
+                    string tocsv = args.Text.Replace("\t", ",");
+                    string[] lines = tocsv.Split(sepArr,StringSplitOptions.RemoveEmptyEntries);
+
+                    if(lines.Count() > 1)
+                    {
+                        foreach(string value in lines)
+                        {
+                            geneLog.Add(value);
+                            Image qrTSV = qrCtrl.MakeQRCode(value);
+                            if (Properties.Settings.Default.is_Filesave)
+                                qrCtrl.SaveQRImage(qrTSV,
+                                    qrCtrl.FilePathGenerator(value, Properties.Settings.Default.SaveFileName, Properties.Settings.Default.SaveKind, textBox3.Text),
+                                    geneSize);
+                            pictureBox1.Image = qrTSV;
+                        }
+                        ToastNotifySender($"QRコードを{lines.Count()}件生成しました。");
+                        lastdata = args.Text;
+                    }
+                    else
+                    {
+                        geneLog.Add(args.Text);
+                        lastdata = args.Text;
+                        Image qr = qrCtrl.MakeQRCode(args.Text);
+                        qrCtrl.CopyQRCode(qr,geneSize);
+
+                        if (Properties.Settings.Default.is_Filesave)
+                            qrCtrl.SaveQRImage(qr,
+                                qrCtrl.FilePathGenerator(args.Text, Properties.Settings.Default.SaveFileName,Properties.Settings.Default.SaveKind,textBox3.Text),
+                                geneSize);
+                        pictureBox1.Image = qr;
+                    }
                     
-                    pictureBox1.Image = qr;
                     ReDrawList();
                 }
             }

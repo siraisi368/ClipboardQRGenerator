@@ -11,7 +11,6 @@ namespace ClipboardQRGenerator
     public class ClipboardEventArgs : EventArgs
     {
         private string text;
-
         public string Text
         {
             get { return this.text; }
@@ -93,6 +92,7 @@ namespace ClipboardQRGenerator
                         SendMessage(
                             nextHandle, msg.Msg, msg.WParam, msg.LParam);
                     break;
+
 
                 // クリップボード・ビューア・チェーンが更新された
                 case WM_CHANGECBCHAIN:
