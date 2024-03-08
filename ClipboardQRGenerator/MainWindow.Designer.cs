@@ -1,6 +1,6 @@
 ﻿namespace ClipboardQRGenerator
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         /// 必要なデザイナー変数です。
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -60,6 +60,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -67,7 +68,6 @@
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.このソフトウェアについてToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -383,6 +383,16 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "コントロール";
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(6, 136);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(144, 30);
+            this.button5.TabIndex = 3;
+            this.button5.Text = "QR化ログクリア";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(6, 172);
@@ -425,25 +435,16 @@
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.このソフトウェアについてToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(180, 26);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(181, 48);
             // 
             // このソフトウェアについてToolStripMenuItem
             // 
             this.このソフトウェアについてToolStripMenuItem.Name = "このソフトウェアについてToolStripMenuItem";
-            this.このソフトウェアについてToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.このソフトウェアについてToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.このソフトウェアについてToolStripMenuItem.Text = "このソフトウェアについて";
+            this.このソフトウェアについてToolStripMenuItem.Click += new System.EventHandler(this.このソフトウェアについてToolStripMenuItem_Click);
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(6, 136);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(144, 30);
-            this.button5.TabIndex = 3;
-            this.button5.Text = "QR化ログクリア";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // Form1
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -458,7 +459,7 @@
             this.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "Form1";
+            this.Name = "MainWindow";
             this.Text = "ClipboardQRGenerator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);

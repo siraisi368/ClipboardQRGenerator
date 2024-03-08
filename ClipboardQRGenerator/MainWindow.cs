@@ -16,9 +16,9 @@ using Windows.ApplicationModel.Chat;
 
 namespace ClipboardQRGenerator
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
-        public Form1()
+        public MainWindow()
         {
             MyClipboardViewer viewer = new MyClipboardViewer(this);
 
@@ -248,6 +248,12 @@ namespace ClipboardQRGenerator
                 geneLog = new List<string>();
                 ReDrawList();
             }
+        }
+
+        private void このソフトウェアについてToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About f = new About();
+            f.ShowDialog();
         }
     }
 }
