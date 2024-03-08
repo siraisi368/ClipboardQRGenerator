@@ -1,14 +1,10 @@
-﻿using System;
+﻿using QRCoder;
+using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QRCoder;
-using System.Windows.Forms;
-using Windows.Web.AtomPub;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ClipboardQRGenerator
 {
@@ -75,7 +71,7 @@ namespace ClipboardQRGenerator
         /// <param name="fileExt">拡張子</param>
         /// <param name="folderPath">保存先フォルダ</param>
         /// <returns></returns>
-        public string FilePathGenerator(string value,int fileNameType = 0,int fileExt = 0,string folderPath=null)
+        public string FilePathGenerator(string value, int fileNameType = 0, int fileExt = 0, string folderPath = null)
         {
             if (folderPath == null) return "Error";
             string respData = null;
@@ -108,15 +104,15 @@ namespace ClipboardQRGenerator
         /// <param name="saveFormat">保存する形式</param>
         /// <param name="saveImage">保存する画像</param>
         /// <returns></returns>
-        public int SaveQRImage(Image saveImage,string filePath,(int?,int?) imageSize)
+        public int SaveQRImage(Image saveImage, string filePath, (int?, int?) imageSize)
         {
             try
             {
-                Bitmap bitmap = new Bitmap(width:(int)imageSize.Item1,height: (int)imageSize.Item2);
+                Bitmap bitmap = new Bitmap(width: (int)imageSize.Item1, height: (int)imageSize.Item2);
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(saveImage,0,0,bitmap.Width,bitmap.Height);
+                    g.DrawImage(saveImage, 0, 0, bitmap.Width, bitmap.Height);
                 }
                 bitmap.Save(filePath);
             }
@@ -132,7 +128,7 @@ namespace ClipboardQRGenerator
         /// <param name="qrImage">QRコード画像</param>
         /// <param name="imageSize">目標解像度</param>
         /// <returns></returns>
-        public int CopyQRCode(Image qrImage,(int?,int?) imageSize)
+        public int CopyQRCode(Image qrImage, (int?, int?) imageSize)
         {
             try
             {

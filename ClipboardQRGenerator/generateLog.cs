@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace ClipboardQRGenerator
 {
@@ -13,12 +10,12 @@ namespace ClipboardQRGenerator
         public List<string> ReadLog()
         {
             List<string> logs = new List<string>();
-            using(StreamReader sr = new StreamReader(@"logs/geneLog.json", Encoding.UTF8))
+            using (StreamReader sr = new StreamReader(@"logs/geneLog.json", Encoding.UTF8))
             {
                 var json = sr.ReadToEnd();
                 logs = JsonConvert.DeserializeObject<List<string>>(json);
             }
-            if(logs == null) {  logs = new List<string>(); }
+            if (logs == null) { logs = new List<string>(); }
             return logs;
         }
         public void WriteLog(dynamic log)

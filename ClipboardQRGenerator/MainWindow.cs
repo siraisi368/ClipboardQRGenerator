@@ -1,21 +1,10 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Diagnostics;
-using System.IO;
+using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json.Linq;
-using QRCoder;
-using Windows.ApplicationModel.Chat;
 
 namespace ClipboardQRGenerator
 {
@@ -33,7 +22,7 @@ namespace ClipboardQRGenerator
         private readonly QRCtrl qrCtrl = new QRCtrl();
         public List<string> geneLog = new List<string>();
         private bool is_gene = false;
-        
+
         public void ReDrawList()
         {
             listView1.Items.Clear();
@@ -82,7 +71,8 @@ namespace ClipboardQRGenerator
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenFolderDialog ofd = new OpenFolderDialog() {
+            OpenFolderDialog ofd = new OpenFolderDialog()
+            {
                 Title = "保存先フォルダを選択してください",
             };
             if (ofd.ShowDialog() == DialogResult.OK)
@@ -103,15 +93,15 @@ namespace ClipboardQRGenerator
                     int.TryParse(textBox1.Text, out int Width);
                     int.TryParse(textBox2.Text, out int Height);
 
-                    (int, int) geneSize = (Width,Height);
+                    (int, int) geneSize = (Width, Height);
 
                     string[] sepArr = new string[] { "\r\n" };
                     string tocsv = args.Text.Replace("\t", ",");
-                    string[] lines = tocsv.Split(sepArr,StringSplitOptions.RemoveEmptyEntries);
+                    string[] lines = tocsv.Split(sepArr, StringSplitOptions.RemoveEmptyEntries);
 
-                    if(lines.Count() > 1)
+                    if (lines.Count() > 1)
                     {
-                        foreach(string value in lines)
+                        foreach (string value in lines)
                         {
                             geneLog.Add(value);
                             Image qrTSV = qrCtrl.MakeQRCode(value);
@@ -121,7 +111,7 @@ namespace ClipboardQRGenerator
                                     geneSize);
                             pictureBox1.Image = qrTSV;
                         }
-                        ToastNotifySender($"QRコードを{lines.Count()}件生成しました。",true);
+                        ToastNotifySender($"QRコードを{lines.Count()}件生成しました。", true);
                         lastdata = args.Text;
                     }
                     else
@@ -129,15 +119,15 @@ namespace ClipboardQRGenerator
                         geneLog.Add(args.Text);
                         lastdata = args.Text;
                         Image qr = qrCtrl.MakeQRCode(args.Text);
-                        qrCtrl.CopyQRCode(qr,geneSize);
+                        qrCtrl.CopyQRCode(qr, geneSize);
 
                         if (Properties.Settings.Default.is_Filesave)
                             qrCtrl.SaveQRImage(qr,
-                                qrCtrl.FilePathGenerator(args.Text, Properties.Settings.Default.SaveFileName,Properties.Settings.Default.SaveKind,textBox3.Text),
+                                qrCtrl.FilePathGenerator(args.Text, Properties.Settings.Default.SaveFileName, Properties.Settings.Default.SaveKind, textBox3.Text),
                                 geneSize);
                         pictureBox1.Image = qr;
                     }
-                    
+
                     ReDrawList();
                 }
             }
@@ -147,7 +137,7 @@ namespace ClipboardQRGenerator
             }
         }
 
-        private void ToastNotifySender(string Message,bool is_save = false)
+        private void ToastNotifySender(string Message, bool is_save = false)
         {
             if (is_save)
             {
@@ -179,7 +169,7 @@ namespace ClipboardQRGenerator
             //「開く」ボタン時
             if (arg == "openFolder")
                 Process.Start(textBox3.Text);
-                return;
+            return;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -231,8 +221,8 @@ namespace ClipboardQRGenerator
 
                 (int, int) geneSize = (Width, Height);
                 int code = qrCtrl.CopyQRCode(qrCtrl.MakeQRCode(geneLog[selectindex]), geneSize);
-                if(code == 0) ToastNotifySender("QRコードのコピーに成功しました");
-                if(code == 1) ToastNotifySender("QRコードのコピーに失敗しました");
+                if (code == 0) ToastNotifySender("QRコードのコピーに成功しました");
+                if (code == 1) ToastNotifySender("QRコードのコピーに失敗しました");
             }
         }
 
@@ -253,10 +243,10 @@ namespace ClipboardQRGenerator
                 };
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    int code=qrCtrl.SaveQRImage(qrCtrl.MakeQRCode(geneLog[selectindex]), sfd.FileName, geneSize);
+                    int code = qrCtrl.SaveQRImage(qrCtrl.MakeQRCode(geneLog[selectindex]), sfd.FileName, geneSize);
                     ToastNotifySender("QRコードの保存に成功しました");
-                    if(code == 0 )ToastNotifySender("QRコードの保存に成功しました");
-                    if(code == 1) ToastNotifySender("QRコードの保存に失敗しました");
+                    if (code == 0) ToastNotifySender("QRコードの保存に成功しました");
+                    if (code == 1) ToastNotifySender("QRコードの保存に失敗しました");
                 }
             }
         }
@@ -274,7 +264,7 @@ namespace ClipboardQRGenerator
                 int code = qrCtrl.SaveQRImage(qr,
                             qrCtrl.FilePathGenerator(geneLog[selectindex], Properties.Settings.Default.SaveFileName, Properties.Settings.Default.SaveKind, textBox3.Text),
                             (Width, Height));
-                if (code == 0) ToastNotifySender("QRコードの保存に成功しました",true);
+                if (code == 0) ToastNotifySender("QRコードの保存に成功しました", true);
                 if (code == 1) ToastNotifySender("QRコードの保存に失敗しました");
             }
         }
@@ -286,7 +276,7 @@ namespace ClipboardQRGenerator
 
         private void button5_Click(object sender, EventArgs e)
         {
-            DialogResult dialog = MessageBox.Show("生成ログをクリアします。\r\nこの処理は元に戻せません。よろしいですか。","警告",MessageBoxButtons.OKCancel,MessageBoxIcon.Warning);
+            DialogResult dialog = MessageBox.Show("生成ログをクリアします。\r\nこの処理は元に戻せません。よろしいですか。", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (dialog == DialogResult.OK)
             {
                 geneLog = new List<string>();
