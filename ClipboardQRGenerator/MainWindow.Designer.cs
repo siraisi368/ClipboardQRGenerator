@@ -223,6 +223,8 @@
             this.label6.Size = new System.Drawing.Size(100, 16);
             this.label6.TabIndex = 7;
             this.label6.Text = "ファイル名形式";
+            this.toolTip1.SetToolTip(this.label6, "ファイル名形式\r\nファイル名の形式を選択可能です。\r\n「日時」 日付と時間\r\n「クリップボード内容」 クリップボードの内容そのまま\r\n「日時+クリップボード内容」" +
+        " 日時とクリップボード内容\r\n「URL・フォルダパス内ファイル名」 QR化文字列のURL・ファイルパスからファイル名のみを抽出します");
             // 
             // comboBox2
             // 
@@ -247,6 +249,7 @@
             this.label5.Size = new System.Drawing.Size(71, 16);
             this.label5.TabIndex = 6;
             this.label5.Text = "保存形式";
+            this.toolTip1.SetToolTip(this.label5, "保存形式\r\nデータを保存する際の画像形式を設定できます。\r\n通常はPNGで問題ありません。");
             // 
             // button1
             // 
@@ -275,6 +278,7 @@
             this.checkBox1.Size = new System.Drawing.Size(145, 20);
             this.checkBox1.TabIndex = 1;
             this.checkBox1.Text = "生成時に保存する";
+            this.toolTip1.SetToolTip(this.checkBox1, "生成時に保存する\r\n生成したQRコードを自動で保存するか選べます。");
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -294,6 +298,7 @@
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "QR化ログ";
+            this.toolTip1.SetToolTip(this.groupBox3, "QR化ログ\r\nQRコード化した文字列が表示されます。\r\n保存したい文字を右クリックでコピー・保存が可能です。");
             // 
             // listView1
             // 
@@ -361,6 +366,7 @@
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "最新のQR";
+            this.toolTip1.SetToolTip(this.groupBox4, "最新のQR\r\n最後に生成したQRコードが表示されています。");
             // 
             // pictureBox1
             // 
@@ -393,6 +399,7 @@
             this.checkBox2.Size = new System.Drawing.Size(132, 20);
             this.checkBox2.TabIndex = 4;
             this.checkBox2.Text = "QR化ログの保持";
+            this.toolTip1.SetToolTip(this.checkBox2, "QR化ログの保持\r\nQR化ログを再起動してもそのままにするか選べます。");
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
