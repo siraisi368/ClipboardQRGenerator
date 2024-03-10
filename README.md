@@ -72,14 +72,13 @@
 #### ファイル名形式  
 ファイル名の例を以下に示します。
 > [!Note]
-> 下記の例ではコピーしたテキストを「example」とします。  
-> また、コピーしたパスは「<https://example.com/examplefile.pdf>」とします。
+> 下記の例ではコピーしたテキストを「<https://example.com/examplefile.pdf>」とします。
 
 |形式名|例|
 |-|-|
 |日時|年-月-日 時-分-秒|
-|クリップボード内容|example|
-|日時+クリップボード内容|年-月-日 時-分-秒example|
+|クリップボード内容|https__example.com_example.pdf|
+|日時+クリップボード内容|年-月-日 時-分-秒https__example.com_example.pdf|
 |URL・フォルダパスファイル名|examplefile|
 
 > [!Important]
