@@ -178,7 +178,7 @@
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(771, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(646, 17);
             this.toolStripStatusLabel2.Spring = true;
             this.toolStripStatusLabel2.Text = "Developed by siraisi368";
             this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -208,7 +208,8 @@
             "日時",
             "クリップボード内容",
             "日時+クリップボード内容",
-            "URL・フォルダパス内ファイル名"});
+            "URL・フォルダパス内ファイル名",
+            "品番+機種名"});
             this.comboBox3.Location = new System.Drawing.Point(260, 84);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(297, 24);

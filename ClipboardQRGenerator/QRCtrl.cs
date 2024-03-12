@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace ClipboardQRGenerator
@@ -34,6 +37,27 @@ namespace ClipboardQRGenerator
             { 2,".gif"},
             { 3,".bmp"},
         };
+        static Encoding enc = Encoding.UTF8;
+        public int ConvertPixelPerModule((int,int) size)
+        {
+            int respData = 5;
+            if (size.Item1 >= 50 && size.Item2 >= 50 && size.Item1 <= 400 && size.Item2 <= 400)
+            {
+                respData = 5;
+            }
+            // 設定解像度が400px上 600下
+            if (size.Item1 >= 400 && size.Item2 >= 400 && size.Item1 <= 600 && size.Item2 <= 600)
+            {
+                respData = 10;
+            }
+            // 設定解像度が600px上 1000下
+            else if (size.Item1 >= 600 && size.Item2 >= 600 && size.Item1 <= 1000 && size.Item2 <= 1000)
+            {
+                respData = 20;
+            }
+
+            return respData;
+        }
         /// <summary>
         /// 使用不可能な文字をアンダースコアに置換える関数
         /// </summary>
@@ -51,16 +75,31 @@ namespace ClipboardQRGenerator
             return respData;
         }
         /// <summary>
+        /// ファイル名から品番と機種名を抽出して、アンダースコアで連結する関数
+        /// </summary>
+        /// <param name="url">ファイルパス</param>
+        /// <returns></returns>
+        public string UrlToFileNamePN_MN(string url)
+        {
+            string respData = null;
+
+            url = Path.GetFileNameWithoutExtension(url);
+            string[] strings = url.Split('_');
+            string[] str = Regex.Split(strings[1], "xx");
+            respData = $"{strings[0]}_{str[0]}";
+            
+            return respData;
+        }
+
+        /// <summary>
         /// QR化したパス・URLのファイル名のみを抽出する関数
         /// </summary>
-        /// <param name="url"></param>
+        /// <param name="url">ファイルパス</param>
         /// <returns></returns>
         public string UrlToFileName(string url)
         {
             string respData = null;
             respData = Path.GetFileNameWithoutExtension(url);
-            //string[] tempList = respData.Split('_');
-            //respData = tempList[2];
             return respData;
         }
         /// <summary>
@@ -89,8 +128,8 @@ namespace ClipboardQRGenerator
                 case 3: // URL・ファイルパスのファイル名のみ
                     respData = $@"{folderPath}\{UrlToFileName(value)}{SaveFileTypeExt[fileExt]}";
                     break;
-                case 4: // 名前を付けて保存
-                    respData = $@"{folderPath}";
+                case 4: //品番＋機種名
+                    respData = $@"{folderPath}\{UrlToFileNamePN_MN(value)}{SaveFileTypeExt[fileExt]}";
                     break;
             }
             return respData;
@@ -106,20 +145,20 @@ namespace ClipboardQRGenerator
         /// <returns></returns>
         public int SaveQRImage(Image saveImage, string filePath, (int?, int?) imageSize)
         {
-            try
+            //try
             {
                 Bitmap bitmap = new Bitmap(width: (int)imageSize.Item1, height: (int)imageSize.Item2);
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                     g.DrawImage(saveImage, 0, 0, bitmap.Width, bitmap.Height);
                 }
                 bitmap.Save(filePath);
             }
-            catch
-            {
-                return 1;
-            }
+            //catch
+            //{
+            //    return 1;
+            //}
             return 0;
         }
         /// <summary>
@@ -130,26 +169,26 @@ namespace ClipboardQRGenerator
         /// <returns></returns>
         public int CopyQRCode(Image qrImage, (int?, int?) imageSize)
         {
-            try
+            //try
             {
                 Bitmap bitmap = new Bitmap(width: (int)imageSize.Item1, height: (int)imageSize.Item2);
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                     g.DrawImage(qrImage, 0, 0, bitmap.Width, bitmap.Height);
                 }
                 Clipboard.SetImage(bitmap);
                 return 0;
             }
-            catch { return 1; }
+            //catch { return 1; }
         }
 
-        public Image MakeQRCode(string Value)
+        public Image MakeQRCode(string Value,int qrSize)
         {
             QRCodeGenerator qRCG = new QRCodeGenerator();
             QRCodeData qRCodeData = qRCG.CreateQrCode(Value, ECCLvs[Properties.Settings.Default.ECCLv]);
             QRCode qrCode = new QRCode(qRCodeData);
-            return qrCode.GetGraphic(20);
+            return qrCode.GetGraphic(qrSize);
         }
     }
 }

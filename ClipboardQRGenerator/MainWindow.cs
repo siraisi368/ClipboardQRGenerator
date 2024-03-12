@@ -1,10 +1,15 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace ClipboardQRGenerator
 {
@@ -50,6 +55,7 @@ namespace ClipboardQRGenerator
             this.MaximizeBox = false;
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -84,12 +90,11 @@ namespace ClipboardQRGenerator
         private string lastdata = null;
         private void OnClipBoardChanged(object sender, ClipboardEventArgs args)
         {
-            try
+            //try
             {
                 if (lastdata == args.Text || !is_gene) return;
                 else
                 {
-                    Console.WriteLine(args.Text);
                     int.TryParse(textBox1.Text, out int Width);
                     int.TryParse(textBox2.Text, out int Height);
 
@@ -101,13 +106,13 @@ namespace ClipboardQRGenerator
 
                     if (lines.Count() > 1)
                     {
-                        foreach (string value in lines)
+                        foreach (var value in lines.Select((value, index) => new { value,index}))
                         {
-                            geneLog.Add(value);
-                            Image qrTSV = qrCtrl.MakeQRCode(value);
+                            geneLog.Add(value.value);
+                            Image qrTSV = qrCtrl.MakeQRCode(value.value,qrCtrl.ConvertPixelPerModule((Width,Height)));
                             if (Properties.Settings.Default.is_Filesave)
                                 qrCtrl.SaveQRImage(qrTSV,
-                                    qrCtrl.FilePathGenerator(value, Properties.Settings.Default.SaveFileName, Properties.Settings.Default.SaveKind, textBox3.Text),
+                                    qrCtrl.FilePathGenerator(value.value, Properties.Settings.Default.SaveFileName, Properties.Settings.Default.SaveKind, textBox3.Text),
                                     geneSize);
                             pictureBox1.Image = qrTSV;
                         }
@@ -118,7 +123,7 @@ namespace ClipboardQRGenerator
                     {
                         geneLog.Add(args.Text);
                         lastdata = args.Text;
-                        Image qr = qrCtrl.MakeQRCode(args.Text);
+                        Image qr = qrCtrl.MakeQRCode(args.Text,qrCtrl.ConvertPixelPerModule((Width, Height)));
                         qrCtrl.CopyQRCode(qr, geneSize);
 
                         if (Properties.Settings.Default.is_Filesave)
@@ -131,10 +136,15 @@ namespace ClipboardQRGenerator
                     ReDrawList();
                 }
             }
-            catch
-            {
-                ToastNotifySender("QRコードの生成に失敗しました。");
-            }
+            //catch
+            //{
+            //   ToastNotifySender("QRコードの生成に失敗しました。");
+            //}
+        }
+
+        private void onProgressChanged(int per)
+        {
+            
         }
 
         private void ToastNotifySender(string Message, bool is_save = false)
@@ -208,6 +218,7 @@ namespace ClipboardQRGenerator
         private void button4_Click(object sender, EventArgs e)
         {
             Clipboard.Clear();
+            lastdata = null;
         }
 
         private void qRをコピーToolStripMenuItem_Click(object sender, EventArgs e)
@@ -220,7 +231,7 @@ namespace ClipboardQRGenerator
                 int.TryParse(textBox2.Text, out int Height);
 
                 (int, int) geneSize = (Width, Height);
-                int code = qrCtrl.CopyQRCode(qrCtrl.MakeQRCode(geneLog[selectindex]), geneSize);
+                int code = qrCtrl.CopyQRCode(qrCtrl.MakeQRCode(geneLog[selectindex], qrCtrl.ConvertPixelPerModule((Width, Height))), geneSize);
                 if (code == 0) ToastNotifySender("QRコードのコピーに成功しました");
                 if (code == 1) ToastNotifySender("QRコードのコピーに失敗しました");
             }
@@ -243,7 +254,7 @@ namespace ClipboardQRGenerator
                 };
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    int code = qrCtrl.SaveQRImage(qrCtrl.MakeQRCode(geneLog[selectindex]), sfd.FileName, geneSize);
+                    int code = qrCtrl.SaveQRImage(qrCtrl.MakeQRCode(geneLog[selectindex], qrCtrl.ConvertPixelPerModule((Width, Height))), sfd.FileName, geneSize);
                     ToastNotifySender("QRコードの保存に成功しました");
                     if (code == 0) ToastNotifySender("QRコードの保存に成功しました");
                     if (code == 1) ToastNotifySender("QRコードの保存に失敗しました");
@@ -260,7 +271,7 @@ namespace ClipboardQRGenerator
                 int.TryParse(textBox1.Text, out int Width);
                 int.TryParse(textBox2.Text, out int Height);
 
-                Image qr = qrCtrl.MakeQRCode(geneLog[selectindex]);
+                Image qr = qrCtrl.MakeQRCode(geneLog[selectindex], qrCtrl.ConvertPixelPerModule((Width, Height)));
                 int code = qrCtrl.SaveQRImage(qr,
                             qrCtrl.FilePathGenerator(geneLog[selectindex], Properties.Settings.Default.SaveFileName, Properties.Settings.Default.SaveKind, textBox3.Text),
                             (Width, Height));
