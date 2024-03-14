@@ -90,7 +90,7 @@ namespace ClipboardQRGenerator
         private string lastdata = null;
         private void OnClipBoardChanged(object sender, ClipboardEventArgs args)
         {
-            //try
+            try
             {
                 if (lastdata == args.Text || !is_gene) return;
                 else
@@ -136,10 +136,10 @@ namespace ClipboardQRGenerator
                     ReDrawList();
                 }
             }
-            //catch
-            //{
-            //   ToastNotifySender("QRコードの生成に失敗しました。");
-            //}
+            catch
+            {
+               ToastNotifySender("QRコードの生成に失敗しました。");
+            }
         }
 
         private void onProgressChanged(int per)

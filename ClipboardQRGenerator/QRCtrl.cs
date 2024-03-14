@@ -82,8 +82,9 @@ namespace ClipboardQRGenerator
         public string UrlToFileNamePN_MN(string url)
         {
             string respData = null;
-
+            url = url.Replace(Environment.NewLine,"");
             url = Path.GetFileNameWithoutExtension(url);
+            if (url == "" || url == null) return "Unkown";
             string[] strings = url.Split('_');
             string[] str = Regex.Split(strings[1], "xx");
             respData = $"{strings[0]}_{str[0]}";
@@ -145,7 +146,7 @@ namespace ClipboardQRGenerator
         /// <returns></returns>
         public int SaveQRImage(Image saveImage, string filePath, (int?, int?) imageSize)
         {
-            //try
+            try
             {
                 Bitmap bitmap = new Bitmap(width: (int)imageSize.Item1, height: (int)imageSize.Item2);
                 using (Graphics g = Graphics.FromImage(bitmap))
@@ -155,10 +156,10 @@ namespace ClipboardQRGenerator
                 }
                 bitmap.Save(filePath);
             }
-            //catch
-            //{
-            //    return 1;
-            //}
+            catch
+            {
+                return 1;
+            }
             return 0;
         }
         /// <summary>
@@ -169,7 +170,7 @@ namespace ClipboardQRGenerator
         /// <returns></returns>
         public int CopyQRCode(Image qrImage, (int?, int?) imageSize)
         {
-            //try
+            try
             {
                 Bitmap bitmap = new Bitmap(width: (int)imageSize.Item1, height: (int)imageSize.Item2);
                 using (Graphics g = Graphics.FromImage(bitmap))
@@ -180,7 +181,7 @@ namespace ClipboardQRGenerator
                 Clipboard.SetImage(bitmap);
                 return 0;
             }
-            //catch { return 1; }
+            catch { return 1; }
         }
 
         public Image MakeQRCode(string Value,int qrSize)
